@@ -53,4 +53,13 @@ fi
 sudo -u "$CURRENT_USER" bash -c "source ~/.bashrc"
 
 
+echo "Step 5: api-serverサービスのDISPLAY変数の変更"
+# api-server.serviceのEnvironment=DISPLAY=:0をEnvironment=DISPLAY=:99に変更
+sudo sed -i 's/Environment=DISPLAY=:0/Environment=DISPLAY=:99/' /etc/systemd/system/api-server.service
+# systemdの再読み込み
+sudo systemctl daemon-reload
+# api-serverサービスの再起動
+sudo systemctl restart api-server
+
+
 echo "セットアップ完了"
