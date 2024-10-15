@@ -1,34 +1,34 @@
 #!/bin/bash
 
-# ƒXƒNƒŠƒvƒg‚ªÀs‚³‚ê‚éêŠ‚É‰‚¶‚Ärootƒ†[ƒU[‚ÅÀs‚·‚é‚±‚Æ‚ª•K—v‚Å‚·
+# ã‚¹ã‚¯ãƒªãƒ—ãƒˆãŒå®Ÿè¡Œã•ã‚Œã‚‹å ´æ‰€ã«å¿œã˜ã¦rootãƒ¦ãƒ¼ã‚¶ãƒ¼ã§å®Ÿè¡Œã™ã‚‹ã“ã¨ãŒå¿…è¦ã§ã™
 if [ "$EUID" -ne 0 ]
   then echo "Please run as root"
   exit
 fi
 
-# Œ»İ‚Ìì‹ÆƒfƒBƒŒƒNƒgƒŠ‚ğæ“¾
+# ç¾åœ¨ã®ä½œæ¥­ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’å–å¾—
 CURRENT_DIR=$(pwd)
 
-echo "Step 1: ƒpƒbƒP[ƒW‚ÌƒCƒ“ƒXƒg[ƒ‹"
+echo "Step 1: ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«"
 sudo apt-get update
 sudo apt-get install -y libx11-dev libxkbcommon-x11-0 libatk-bridge2.0-0 libnss3 libxss1 libasound2 libgbm1 libgtk-3-0 libx11-xcb1 libxcomposite1 libxcursor1 libxi6 libxtst6 libnss3-dev libatk1.0-0 libatk-bridge2.0-0 libcups2 libxrandr2
 
-echo "Step 2: Node.js‚ÌƒCƒ“ƒXƒg[ƒ‹"
+echo "Step 2: Node.jsã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«"
 curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 sudo apt-get install -y nodejs
 
-echo "Step 3: Puppeteer‚ÌƒCƒ“ƒXƒg[ƒ‹"
-# srcƒfƒBƒŒƒNƒgƒŠ‚ÉˆÚ“®‚µ‚ÄPuppeteer‚ğƒCƒ“ƒXƒg[ƒ‹
+echo "Step 3: Puppeteerã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«"
+# srcãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«ç§»å‹•ã—ã¦Puppeteerã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«
 cd "$CURRENT_DIR/src"
 npm install puppeteer
 
-echo "Step 4: DISPLAY•Ï”‚Ì©“®İ’è"
-# DISPLAYŠÂ‹«•Ï”‚ğ~/.bashrc‚É’Ç‰Á
+echo "Step 4: DISPLAYå¤‰æ•°ã®è‡ªå‹•è¨­å®š"
+# DISPLAYç’°å¢ƒå¤‰æ•°ã‚’~/.bashrcã«è¿½åŠ 
 grep -qxF 'export DISPLAY=:0' ~/.bashrc || echo 'export DISPLAY=:0' >> ~/.bashrc
 source ~/.bashrc
 
-echo "Step 5: systemdƒT[ƒrƒX‚Ìì¬"
-# APIƒT[ƒo[‚ÌsystemdƒT[ƒrƒXƒtƒ@ƒCƒ‹‚ğì¬
+echo "Step 5: systemdã‚µãƒ¼ãƒ“ã‚¹ã®ä½œæˆ"
+# APIã‚µãƒ¼ãƒãƒ¼ã®systemdã‚µãƒ¼ãƒ“ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä½œæˆ
 cat <<EOL > /etc/systemd/system/api-server.service
 [Unit]
 Description=Node.js API Server
@@ -47,9 +47,9 @@ Environment=NODE_ENV=production
 WantedBy=multi-user.target
 EOL
 
-echo "Step 6: ƒT[ƒrƒX‚Ì—LŒø‰»‚Æ‹N“®"
-# ƒT[ƒrƒX‚ğ—LŒø‰»‚µA©“®‹N“®İ’è
+echo "Step 6: ã‚µãƒ¼ãƒ“ã‚¹ã®æœ‰åŠ¹åŒ–ã¨èµ·å‹•"
+# ã‚µãƒ¼ãƒ“ã‚¹ã‚’æœ‰åŠ¹åŒ–ã—ã€è‡ªå‹•èµ·å‹•è¨­å®š
 sudo systemctl enable api-server
 sudo systemctl start api-server
 
-echo "ƒZƒbƒgƒAƒbƒvŠ®—¹"
+echo "ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—å®Œäº†"
