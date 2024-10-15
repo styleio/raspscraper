@@ -26,14 +26,27 @@ app.get('/scrape', async (req, res) => {
             ]
         });
         const page = await browser.newPage();
+
+        let status;
+        // 最初のレスポンスのステータスコードを取得する
+        page.on('response', response => {
+            if (!status) {  // 初回のレスポンスのみ取得
+                status = response.status();
+            }
+        });
+
         await page.goto(url);
 
-        // ページのタイトルを取得する例
+        // ページのタイトルを取得
         const title = await page.title();
+        // ページのbodyを取得
+        const body = await page.evaluate(() => document.body.innerHTML);
 
         await browser.close();
 
-        res.json({ title });
+        // title, body, statusをレスポンスとして返す
+        res.json({ status,title, body});
+
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

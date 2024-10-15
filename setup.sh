@@ -21,9 +21,10 @@ curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 sudo apt-get install -y nodejs
 
 echo "Step 3: Puppeteerのインストール"
-# srcディレクトリに移動してPuppeteerをインストール
+# srcディレクトリに移動して必要ソフトをインストール
 cd "$CURRENT_DIR/src"
 npm install puppeteer
+npm install express
 
 echo "Step 4: DISPLAY変数の自動設定"
 # DISPLAY環境変数を~/.bashrcに追加
