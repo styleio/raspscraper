@@ -10,7 +10,7 @@ fi
 CURRENT_DIR=$(pwd)
 
 # 現在のユーザーを取得
-CURRENT_USER=$USER
+CURRENT_USER=${SUDO_USER:-$USER}
 
 echo "Step 1: パッケージのインストール"
 sudo apt-get update
