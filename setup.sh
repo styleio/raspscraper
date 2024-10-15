@@ -28,8 +28,8 @@ npm install express
 
 echo "Step 4: DISPLAY変数の自動設定"
 # DISPLAY環境変数を~/.bashrcに追加
-grep -qxF 'export DISPLAY=:0' ~/.bashrc || echo 'export DISPLAY=:0' >> ~/.bashrc
-source ~/.bashrc
+sudo -u "$CURRENT_USER" bash -c "grep -qxF 'export DISPLAY=:0' ~/.bashrc || echo 'export DISPLAY=:0' >> ~/.bashrc"
+sudo -u "$CURRENT_USER" bash -c "source ~/.bashrc"
 
 echo "Step 5: systemdサービスの作成"
 # APIサーバーのsystemdサービスファイルを作成
